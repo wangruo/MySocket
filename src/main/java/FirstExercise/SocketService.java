@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SocketService extends SocketBase {
+public class SocketService extends ServiceBase {
 
     private final String host;
     private final int port;
@@ -21,7 +21,7 @@ public class SocketService extends SocketBase {
         this.port = port;
         this.maxConnections = maxConnections;
         // 初始化map桶为最大连接数的二倍，使负载值最大达到0.5
-        this.listClientSocket = new ConcurrentHashMap<>(maxConnections * 2);
+        this.listClientSocket = new ConcurrentHashMap<>(maxConnections * 2 + 1);
         acceptThread = new Thread(new AcceptThread());
     }
 
@@ -34,7 +34,7 @@ public class SocketService extends SocketBase {
             // 父类的start放在这里，防止上面的处理出现异常，为下面提供运行标志
             super.start();
             acceptThread.start();
-            System.out.println("Service has started!");
+            System.out.println("SocketService has been started!");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,6 +63,8 @@ public class SocketService extends SocketBase {
             }
             System.out.println(x + " socket has closed manually!");
         });
+        listClientSocket.clear();
+        serverSocket = null;
 
         // 等待线程都退出
         try {

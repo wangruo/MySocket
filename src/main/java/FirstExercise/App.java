@@ -11,7 +11,8 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         System.out.println("Welcome to use SocketService!");
-        SocketService service = new SocketService("localhost", 5000, 2000);
+        //SocketService service = new SocketService("localhost", 5000, 2000);
+        AsynchronousSocketService service = new AsynchronousSocketService("localhost", 5000);
         // 包装系统标准输入
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -37,6 +38,7 @@ public class App {
         }
 
         System.out.println("Exit Success!");
+        System.exit(0);
     }
 }
 
