@@ -135,7 +135,6 @@ public class AsynchronousSocketService extends ServiceBase {
         public void failed(Throwable exc, Object attachment) {
             AsynchronousSocketClient client = (AsynchronousSocketClient) attachment;
             System.out.printf("Write Exception %s\n", client.getAddress());
-            exc.printStackTrace();
         }
     }
 }
